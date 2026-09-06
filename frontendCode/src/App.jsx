@@ -1,25 +1,37 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Analytics from "./pages/Analytics";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Public Route */}
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+
+        {/* Protected Routes */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <div className="p-8 text-center text-2xl font-bold">
-                Welcome to Vorexa Dashboard! (Kanban Board Coming Next)
-              </div>
+              <Dashboard />
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch-all Redirects */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
   );
